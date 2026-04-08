@@ -148,5 +148,13 @@
     "category": "meal",
     "summary": "",
     "markdown": "refeicao-noite.md"
+  },
+  {
+    "id": "19",
+    "time": "15:00",
+    "title": "Lanche da tarde",
+    "category": "snack",
+    "summary": "",
+    "markdown": ""
   }
 ]

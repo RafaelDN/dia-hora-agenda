@@ -1,0 +1,152 @@
+﻿[
+  {
+    "id": "1",
+    "time": "09:00",
+    "title": "Paroxetina",
+    "category": "medicine",
+    "summary": "25mg",
+    "frequency": "1x ao dia",
+    "tags": ["Psiquiatra"],
+    "markdown": "paroxetina.md"
+  },
+  {
+    "id": "2",
+    "time": "22:00",
+    "title": "Rosucor Eze",
+    "category": "medicine",
+    "summary": "20mg 10mg",
+    "frequency": "1x ao dia",
+    "tags": ["Cardiologista"],
+    "markdown": "rosucor-eze.md"
+  },
+  {
+    "id": "3",
+    "time": "11:00",
+    "title": "Serrapeptidase",
+    "category": "medicine",
+    "summary": "30mg",
+    "frequency": "2x ao dia",
+    "tags": [],
+    "markdown": "serrapeptidase.md"
+  },
+  {
+    "id": "4",
+    "time": "07:00",
+    "title": "L-Glutamina",
+    "category": "supplement",
+    "summary": "5g",
+    "markdown": "glutamina.md"
+  },
+  {
+    "id": "5",
+    "time": "07:00",
+    "title": "Guardian",
+    "category": "supplement",
+    "summary": "1 sache",
+    "markdown": "guardian.md"
+  },
+  {
+    "id": "6",
+    "time": "07:00",
+    "title": "Propolis vermelho",
+    "category": "phytotherapy",
+    "summary": "15 gotas",
+    "markdown": "propolis-vermelho.md"
+  },
+  {
+    "id": "7",
+    "time": "12:00",
+    "title": "Enzimas digestivas",
+    "category": "supplement",
+    "summary": "1 capsula",
+    "markdown": "enzimas-digestivas.md"
+  },
+  {
+    "id": "8",
+    "time": "07:00",
+    "title": "Bioberon",
+    "category": "phytotherapy",
+    "summary": "160mg",
+    "markdown": "bioberon.md"
+  },
+  {
+    "id": "9",
+    "time": "10:00",
+    "title": "Body Balance",
+    "category": "supplement",
+    "summary": "30g",
+    "markdown": "body-balance.md"
+  },
+  {
+    "id": "10",
+    "time": "22:00",
+    "title": "Serrapeptidase",
+    "category": "medicine",
+    "summary": "30mg",
+    "markdown": "serrapeptidase.md"
+  },
+  {
+    "id": "11",
+    "time": "20:00",
+    "title": "Guardian",
+    "category": "supplement",
+    "summary": "1 sache",
+    "markdown": "guardian.md"
+  },
+  {
+    "id": "12",
+    "time": "20:00",
+    "title": "Enzimas digestivas",
+    "category": "supplement",
+    "summary": "1 capsula",
+    "markdown": "enzimas-digestivas.md"
+  },
+  {
+    "id": "13",
+    "time": "20:00",
+    "title": "Bioberon",
+    "category": "phytotherapy",
+    "summary": "160mg",
+    "markdown": "bioberon.md"
+  },
+  {
+    "id": "14",
+    "time": "22:00",
+    "title": "L-Glutamina",
+    "category": "supplement",
+    "summary": "5g",
+    "markdown": "glutamina.md"
+  },
+  {
+    "id": "15",
+    "time": "15:00",
+    "title": "Fresh Collagen",
+    "category": "supplement",
+    "summary": "1 dose",
+    "markdown": "fresh-collagen.md"
+  },
+  {
+    "id": "16",
+    "time": "08:00",
+    "title": "Cafe da manha",
+    "category": "meal",
+    "summary": "3 ovos + Tapioca",
+    "markdown": "cafe-manha.md"
+  },
+  {
+    "id": "17",
+    "time": "12:00",
+    "title": "Almoco",
+    "category": "meal",
+    "summary": "1 proteina + Arroz + Legume + Folhas",
+    "markdown": "almoco.md"
+  },
+  {
+    "id": "18",
+    "time": "20:00",
+    "title": "Cafe da manha",
+    "category": "meal",
+    "summary": "3 ovos + Tapioca + Sobra do almoco",
+    "markdown": "refeicao-noite.md"
+  }
+]

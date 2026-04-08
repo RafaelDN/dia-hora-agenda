@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { RouterLink, useRoute, useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 import { authState, signInWithPassword } from '../lib/auth'
 import { isSupabaseConfigured } from '../lib/supabase'
@@ -52,25 +52,7 @@ async function handleSubmit() {
     <section class="grid w-full max-w-5xl gap-3 lg:grid-cols-[minmax(0,1.2fr)_24rem]">
       <div class="card border border-base-300 bg-base-100/90 shadow-sm">
         <div class="card-body gap-4 p-5">
-          <div class="space-y-2">
-            <span class="text-[11px] font-bold uppercase tracking-[0.12em] text-base-content/55">
-              Area privada
-            </span>
-            <h1 class="text-2xl font-semibold text-base-content">Entrar no perfil</h1>
-            <p class="max-w-2xl text-sm leading-6 text-base-content/70">
-              A agenda continua publica. O acesso ao perfil fica protegido por login no
-              Supabase e sera a base para as regras de RLS depois.
-            </p>
-          </div>
-
-          <div
-            v-if="!isSupabaseConfigured()"
-            class="alert border border-warning/30 bg-warning/10 text-warning-content shadow-sm"
-          >
-            <span>{{ authState.errorMessage }}</span>
-          </div>
-
-          <div v-else-if="formError" class="alert alert-error shadow-sm">
+          <div v-if="formError" class="alert alert-error shadow-sm">
             <span>{{ formError }}</span>
           </div>
 
@@ -93,7 +75,7 @@ async function handleSubmit() {
                 type="password"
                 autocomplete="current-password"
                 class="input input-bordered w-full"
-                placeholder="Sua senha"
+                placeholder="********"
               />
             </label>
 
@@ -101,25 +83,10 @@ async function handleSubmit() {
               <button class="btn btn-primary sm:min-w-36" :disabled="!canSubmit">
                 {{ isSubmitting ? 'Entrando...' : 'Entrar' }}
               </button>
-
-              <RouterLink :to="{ name: 'home' }" class="btn btn-ghost">
-                Voltar para agenda
-              </RouterLink>
             </div>
           </form>
         </div>
       </div>
-
-      <aside class="card border border-base-300 bg-base-100/80 shadow-sm">
-        <div class="card-body gap-3 p-5">
-          <h2 class="text-lg font-semibold">Fluxo atual</h2>
-          <ul class="space-y-2 text-sm leading-6 text-base-content/70">
-            <li>A rota <code>/#/</code> fica publica para consulta da rotina.</li>
-            <li>A rota <code>/#/perfil</code> exige sessao autenticada.</li>
-            <li>Sem login, o guard redireciona para <code>/#/login</code>.</li>
-          </ul>
-        </div>
-      </aside>
     </section>
   </main>
 </template>

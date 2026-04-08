@@ -98,10 +98,10 @@ function updateMobileState(query: MediaQueryList | MediaQueryListEvent) {
     </section>
 
     <dialog ref="mobileDetailModal" class="modal md:hidden">
-      <div class="modal-box relative max-h-[92vh] max-w-lg overflow-y-auto bg-transparent p-0 shadow-none">
+      <div class="modal-box relative max-h-[92vh] max-w-lg overflow-y-auto bg-transparent px-0 pb-0 pt-12 shadow-none">
         <form method="dialog" class="absolute right-3 top-3 z-20">
           <button
-            class="btn btn-circle btn-sm border border-base-300 bg-base-100/95 shadow-sm"
+            class="btn btn-circle btn-sm border-error/25 bg-error/12 text-error shadow-sm hover:bg-error/20"
             aria-label="Fechar detalhes"
           >
             ✕

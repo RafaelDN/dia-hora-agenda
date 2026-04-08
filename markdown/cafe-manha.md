@@ -1,3 +1,3 @@
-﻿- **3 ovos + tapioca**.
+- **3 ovos + tapioca**.
 - As vezes café preto sem açucar
 - Usar esta refeicao como abertura alimentar do dia.

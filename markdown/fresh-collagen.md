@@ -1,4 +1,4 @@
-﻿# Fresh Collagen
+# Fresh Collagen
 
 - Dose: **1 dose**.
 - Pode ser sabor abacaxi com hortela ou neutro.

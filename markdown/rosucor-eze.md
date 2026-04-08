@@ -1,4 +1,4 @@
-﻿# Rosucor Eze
+# Rosucor Eze
 
 - Dose atual: **20 mg / 10 mg**.
 - Frequencia: **1x ao dia**.

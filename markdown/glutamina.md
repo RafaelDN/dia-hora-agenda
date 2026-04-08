@@ -1,4 +1,4 @@
-﻿# L-Glutamina
+# L-Glutamina
 
 **Dose de referencia nesta rotina:** 5 g por tomada.
 

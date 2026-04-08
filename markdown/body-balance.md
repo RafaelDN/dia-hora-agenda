@@ -1,4 +1,4 @@
-﻿# Body Balance
+# Body Balance
 
 - Dose de preparo: **1 medida (30,3 g)**.
 - Diluir em agua.

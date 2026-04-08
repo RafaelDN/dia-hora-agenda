@@ -1,4 +1,4 @@
-﻿# Paroxetina
+# Paroxetina
 
 - Dose atual: **25 mg**.
 - Frequencia: **1x ao dia**.

@@ -1,4 +1,4 @@
-﻿# Propolis vermelho
+# Propolis vermelho
 
 - Dose: **15 gotas**.
 - Pode diluir em agua se necessario.

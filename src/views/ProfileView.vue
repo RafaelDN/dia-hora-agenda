@@ -9,18 +9,7 @@ type ProfileTabId = 'journal' | 'files'
 
 const activeTab = ref<ProfileTabId>('journal')
 const currentUserId = computed(() => authState.user?.id ?? '')
-const memberSince = computed(() => formatDate(authState.user?.created_at ?? null))
 
-function formatDate(value: string | null) {
-  if (!value) {
-    return ''
-  }
-
-  return new Intl.DateTimeFormat('pt-BR', {
-    dateStyle: 'long',
-    timeStyle: 'short',
-  }).format(new Date(value))
-}
 </script>
 
 <template>

@@ -2,15 +2,19 @@
 import { ref, watch } from 'vue'
 
 import {
-  createProfileFileSignedUrl,
   deleteProfileFile,
   listProfileFiles,
   uploadProfileFile,
+  createProfileFileSignedUrl,
 } from '../../lib/profileFiles'
+import {
+  readCachedProfileFiles,
+  writeCachedProfileFiles,
+} from '../../lib/profileCache'
 import type { UserFileRecord } from '../../types/userFile'
 
 type FileListItem = UserFileRecord & {
-  signedUrl: string
+  isOpening?: boolean
 }
 
 const props = defineProps<{
@@ -55,24 +59,49 @@ function formatDate(value: string | null) {
 }
 
 async function loadFiles(userId: string) {
+  const cachedFiles = readCachedProfileFiles(userId)
+
+  if (cachedFiles) {
+    files.value = cachedFiles.records.map((file) => ({ ...file }))
+    return
+  }
+
+  await syncFilesFromServer(userId)
+}
+
+async function syncFilesFromServer(userId: string) {
   isFilesLoading.value = true
   filesError.value = ''
 
   try {
     const records = await listProfileFiles(userId)
-    const signedUrls = await Promise.all(
-      records.map((file) => createProfileFileSignedUrl(file.file_path)),
-    )
-
-    files.value = records.map((file, index) => ({
-      ...file,
-      signedUrl: signedUrls[index],
-    }))
+    writeCachedProfileFiles(userId, records)
+    files.value = records.map((file) => ({ ...file }))
   } catch (error) {
     filesError.value =
       error instanceof Error ? error.message : 'Nao foi possivel carregar os anexos.'
   } finally {
     isFilesLoading.value = false
+  }
+}
+
+async function handleOpen(file: FileListItem) {
+  const target = files.value.find((item) => item.id === file.id)
+
+  if (target) {
+    target.isOpening = true
+  }
+
+  try {
+    const signedUrl = await createProfileFileSignedUrl(file.file_path)
+    window.open(signedUrl, '_blank', 'noopener,noreferrer')
+  } catch (error) {
+    uploadError.value =
+      error instanceof Error ? error.message : 'Nao foi possivel abrir o arquivo.'
+  } finally {
+    if (target) {
+      target.isOpening = false
+    }
   }
 }
 
@@ -117,7 +146,7 @@ async function handleUpload() {
       description: description.value,
     })
 
-    await loadFiles(props.userId)
+    await syncFilesFromServer(props.userId)
 
     selectedFile.value = null
     fileName.value = ''
@@ -153,7 +182,7 @@ async function handleDelete(file: FileListItem) {
 
   try {
     await deleteProfileFile(file.id, file.file_path)
-    await loadFiles(props.userId)
+    await syncFilesFromServer(props.userId)
     uploadSuccess.value = 'Arquivo removido com sucesso.'
   } catch (error) {
     uploadError.value =
@@ -205,14 +234,14 @@ async function handleDelete(file: FileListItem) {
             <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
               <div class="space-y-2">
                 <div class="flex flex-wrap items-center gap-2">
-                  <a
-                    :href="file.signedUrl"
-                    target="_blank"
-                    rel="noreferrer"
-                    class="link text-base font-semibold"
+                  <button
+                    type="button"
+                    class="link link-primary text-left text-base font-semibold"
+                    :disabled="file.isOpening"
+                    @click="handleOpen(file)"
                   >
-                    {{ file.name }}
-                  </a>
+                    {{ file.isOpening ? 'Abrindo...' : file.name }}
+                  </button>
                 </div>
 
                 <p v-if="file.description" class="text-sm leading-6 text-base-content/70">

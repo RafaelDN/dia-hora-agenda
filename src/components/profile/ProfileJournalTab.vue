@@ -8,6 +8,10 @@ import {
   listJournalEntries,
   updateJournalEntry,
 } from '../../lib/journalEntries'
+import {
+  readCachedJournalEntries,
+  writeCachedJournalEntries,
+} from '../../lib/profileCache'
 import type { JournalEntry } from '../../types/journalEntry'
 
 const props = defineProps<{
@@ -96,11 +100,24 @@ function handleNewEntry() {
 }
 
 async function loadEntries(userId: string) {
+  const cachedEntries = readCachedJournalEntries(userId)
+
+  if (cachedEntries) {
+    entries.value = cachedEntries.entries
+    currentPage.value = 1
+    return
+  }
+
+  await syncEntriesFromServer(userId)
+}
+
+async function syncEntriesFromServer(userId: string) {
   isEntriesLoading.value = true
   entriesError.value = ''
 
   try {
     entries.value = await listJournalEntries(userId)
+    writeCachedJournalEntries(userId, entries.value)
     currentPage.value = 1
   } catch (error) {
     entriesError.value =
@@ -149,7 +166,7 @@ async function handleDelete(entry: JournalEntry) {
       resetForm()
     }
 
-    await loadEntries(props.userId)
+    await syncEntriesFromServer(props.userId)
     saveSuccess.value = 'Entrada removida com sucesso.'
   } catch (error) {
     saveError.value =
@@ -194,7 +211,7 @@ async function handleSubmit() {
       saveSuccess.value = 'Entrada criada com sucesso.'
     }
 
-    await loadEntries(props.userId)
+    await syncEntriesFromServer(props.userId)
     resetForm()
   } catch (error) {
     saveError.value =

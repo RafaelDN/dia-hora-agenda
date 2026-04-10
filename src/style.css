@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @plugin "daisyui" {
-  themes: cupcake --default;
+  themes: all;
   logs: false;
 }
 
@@ -28,4 +28,103 @@ body {
 
 #app {
   min-height: 100vh;
+}
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+  }
+
+  .app-shell-header,
+  .routine-print-exclude,
+  .routine-print-control {
+    display: none !important;
+  }
+
+  #app,
+  .routine-print-area,
+  .routine-print-layout {
+    min-height: auto !important;
+    max-width: none !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .routine-print-layout {
+    display: block !important;
+  }
+
+  .routine-print-card {
+    border: 0 !important;
+    background: #fff !important;
+    box-shadow: none !important;
+  }
+
+  .routine-print-card .card-body {
+    padding: 0 !important;
+  }
+
+  .routine-print-timeline {
+    gap: 0.55rem !important;
+  }
+
+  .routine-time-group {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    grid-template-columns: 4.5rem minmax(0, 1fr) !important;
+    gap: 0.4rem !important;
+    margin-bottom: 0.55rem !important;
+  }
+
+  .routine-time-label {
+    position: static !important;
+  }
+
+  .routine-time-label .badge {
+    font-size: 0.7rem !important;
+    min-height: 1.7rem !important;
+    padding-inline: 0.55rem !important;
+  }
+
+  .routine-time-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 0.35rem !important;
+  }
+
+  .routine-print-chip {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  .routine-print-chip .card-body {
+    gap: 0.3rem !important;
+    padding: 0.45rem !important;
+  }
+
+  .routine-print-chip h3 {
+    font-size: 0.7rem !important;
+    line-height: 1.15 !important;
+  }
+
+  .routine-print-chip p {
+    font-size: 0.58rem !important;
+    line-height: 1.25 !important;
+  }
+
+  .routine-print-chip .badge {
+    font-size: 0.52rem !important;
+  }
+
+  .routine-print-chip .mt-1 {
+    margin-top: 0.1rem !important;
+  }
 }

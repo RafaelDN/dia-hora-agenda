@@ -55,10 +55,14 @@ function updateMobileState(query: MediaQueryList | MediaQueryListEvent) {
     mobileDetailModal.value.close()
   }
 }
+
+function handlePrint() {
+  window.print()
+}
 </script>
 
 <template>
-  <main class="mx-auto flex min-h-screen max-w-7xl flex-col gap-3 p-3 lg:p-4">
+  <main class="routine-print-area mx-auto flex min-h-screen max-w-7xl flex-col gap-3 p-3 lg:p-4">
     <div v-if="isLoading" class="alert alert-info shadow-sm">
       <span>Carregando a rotina a partir do arquivo local `data.json`.</span>
     </div>
@@ -67,18 +71,26 @@ function updateMobileState(query: MediaQueryList | MediaQueryListEvent) {
       <span>{{ errorMessage }}</span>
     </div>
 
-    <section v-else class="grid gap-3 xl:grid-cols-[minmax(0,1.75fr)_22rem]">
-      <div class="card border border-base-300 bg-base-100/90 shadow-sm">
+    <section
+      v-else
+      class="routine-print-layout grid gap-3 xl:grid-cols-[minmax(0,1.75fr)_22rem]"
+    >
+      <div class="routine-print-card card border border-base-300 bg-base-100/90 shadow-sm">
         <div class="card-body gap-3 p-3 lg:p-4">
           <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <span class="text-[11px] font-bold uppercase tracking-[0.12em] text-base-content/55">
                 Timeline
               </span>              
-            </div>            
+            </div>
+
+            <button class="routine-print-control btn btn-sm btn-outline" type="button" @click="handlePrint">
+              Imprimir agenda
+            </button>
           </div>
 
           <RoutineTimeline
+            class="routine-print-timeline"
             :groups="groupedItems"
             :active-item-id="activeItemId"
             @select="handleSelect"
@@ -86,7 +98,7 @@ function updateMobileState(query: MediaQueryList | MediaQueryListEvent) {
         </div>
       </div>
 
-      <div class="hidden space-y-2 md:block">
+      <div class="routine-print-exclude hidden space-y-2 md:block">
         <div class="px-1">
           <span class="text-[11px] font-bold uppercase tracking-[0.12em] text-base-content/55">
             Detalhes
@@ -97,7 +109,7 @@ function updateMobileState(query: MediaQueryList | MediaQueryListEvent) {
       </div>
     </section>
 
-    <dialog ref="mobileDetailModal" class="modal md:hidden">
+    <dialog ref="mobileDetailModal" class="routine-print-exclude modal md:hidden">
       <div class="modal-box relative max-h-[92vh] max-w-lg overflow-y-auto bg-transparent px-0 pb-0 pt-12 shadow-none">
         <form method="dialog" class="absolute right-3 top-3 z-20">
           <button

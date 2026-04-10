@@ -23,7 +23,7 @@ function handleSelect() {
 <template>
   <button
     type="button"
-    class="card border-[var(--category-border)] bg-base-100/95 transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md"
+    class="routine-print-chip card border-[var(--category-border)] bg-base-100/95 transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md"
     :class="active ? 'ring-2 ring-[var(--category-accent)] ring-offset-1 shadow-md' : 'shadow-xs'"
     :style="categoryStyle"
     @click="handleSelect"

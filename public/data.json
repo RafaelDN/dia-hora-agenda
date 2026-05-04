@@ -72,7 +72,7 @@
   {
     "id": "9",
     "time": "10:00",
-    "title": "Body Balance",
+    "title": "Muscle Synergy",
     "category": "supplement",
     "summary": "30g",
     "markdown": "body-balance.md"
@@ -119,8 +119,8 @@
   },
   {
     "id": "15",
-    "time": "15:00",
-    "title": "Fresh Collagen",
+    "time": "17:00",
+    "title": "Collagen Protein",
     "category": "supplement",
     "summary": "1 dose",
     "markdown": "fresh-collagen.md"
@@ -151,7 +151,7 @@
   },
   {
     "id": "19",
-    "time": "15:00",
+    "time": "17:00",
     "title": "Lanche da tarde",
     "category": "snack",
     "summary": "",

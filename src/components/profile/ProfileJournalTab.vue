@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, ref, watch } from 'vue'
-import { marked } from 'marked'
 
+import MarkdownContent from '../MarkdownContent.vue'
 import {
   createJournalEntry,
   deleteJournalEntry,
@@ -29,13 +29,13 @@ const editingEntryId = ref('')
 const title = ref('')
 const tagsInput = ref('')
 const contentMd = ref('')
-const previewHtml = ref('')
 const currentPage = ref(1)
 const pageSize = 10
 const editorCard = ref<HTMLElement | null>(null)
 
 const isEditing = computed(() => editingEntryId.value !== '')
 const totalPages = computed(() => Math.max(1, Math.ceil(entries.value.length / pageSize)))
+const hasPreview = computed(() => contentMd.value.trim() !== '')
 const paginatedEntries = computed(() => {
   const start = (currentPage.value - 1) * pageSize
   return entries.value.slice(start, start + pageSize)
@@ -56,14 +56,6 @@ watch(
   { immediate: true },
 )
 
-watch(
-  contentMd,
-  async (value) => {
-    previewHtml.value = value.trim() === '' ? '' : await marked.parse(value)
-  },
-  { immediate: true },
-)
-
 function formatDate(value: string | null) {
   if (!value) {
     return ''
@@ -73,10 +65,6 @@ function formatDate(value: string | null) {
     dateStyle: 'long',
     timeStyle: 'short',
   }).format(new Date(value))
-}
-
-function renderMarkdown(value: string) {
-  return marked.parse(value) as string
 }
 
 function normalizeTagsInput(value: string) {
@@ -292,9 +280,10 @@ async function handleSubmit() {
           </div>
 
           <div
-            class="markdown-body rounded-3xl border border-base-300 bg-base-100 p-4 text-sm leading-6 text-base-content/80"
-            v-html="renderMarkdown(entry.content_md)"
-          ></div>
+            class="contents"
+          >
+            <MarkdownContent :content="entry.content_md" />
+          </div>
         </article>
       </li>
     </ul>
@@ -384,11 +373,7 @@ async function handleSubmit() {
             />
           </label>
 
-          <div
-            v-if="previewHtml"
-            class="markdown-body rounded-3xl border border-base-300 bg-base-100 p-4 text-sm leading-6 text-base-content/80"
-            v-html="previewHtml"
-          ></div>
+          <MarkdownContent v-if="hasPreview" :content="contentMd" />
 
           <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <p class="text-sm leading-6 text-base-content/60">
@@ -404,71 +389,3 @@ async function handleSubmit() {
     </div>
   </div>
 </template>
-
-<style scoped>
-.markdown-body :deep(h1),
-.markdown-body :deep(h2),
-.markdown-body :deep(h3) {
-  margin: 0 0 0.5rem;
-  color: oklch(var(--bc));
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -0.01em;
-}
-
-.markdown-body :deep(h1) {
-  font-size: 1.25rem;
-  margin-top: 0.25rem;
-  margin-bottom: 0.75rem;
-}
-
-.markdown-body :deep(h2) {
-  font-size: 1.05rem;
-  margin-top: 1rem;
-  padding-top: 0.25rem;
-  border-top: 1px solid oklch(var(--b3));
-}
-
-.markdown-body :deep(h3) {
-  font-size: 0.95rem;
-  margin-top: 0.85rem;
-}
-
-.markdown-body :deep(p) {
-  margin: 0 0 0.8rem;
-}
-
-.markdown-body :deep(ul),
-.markdown-body :deep(ol) {
-  margin: 0 0 0.8rem;
-  padding-left: 1.35rem;
-}
-
-.markdown-body :deep(ul) {
-  list-style: disc;
-}
-
-.markdown-body :deep(ol) {
-  list-style: decimal;
-}
-
-.markdown-body :deep(li) {
-  margin: 0.2rem 0;
-  padding-left: 0.1rem;
-}
-
-.markdown-body :deep(li)::marker {
-  color: oklch(var(--bc) / 0.7);
-}
-
-.markdown-body :deep(strong) {
-  color: oklch(var(--bc));
-}
-
-.markdown-body :deep(code) {
-  border-radius: 0.4rem;
-  background: oklch(var(--b2));
-  padding: 0.1rem 0.35rem;
-  font-size: 0.85em;
-}
-</style>

@@ -5,14 +5,20 @@ import type { RoutineItem, TimeGroup } from '../types/routine'
 defineProps<{
   groups: TimeGroup[]
   activeItemId?: string
+  completedItemIds?: string[]
 }>()
 
 const emit = defineEmits<{
   select: [item: RoutineItem]
+  toggleCompleted: [item: RoutineItem]
 }>()
 
 function handleSelect(item: RoutineItem) {
   emit('select', item)
+}
+
+function handleToggleCompleted(item: RoutineItem) {
+  emit('toggleCompleted', item)
 }
 </script>
 
@@ -23,7 +29,9 @@ function handleSelect(item: RoutineItem) {
       :key="group.time"
       :group="group"
       :active-item-id="activeItemId"
+      :completed-item-ids="completedItemIds"
       @select="handleSelect"
+      @toggle-completed="handleToggleCompleted"
     />
   </div>
 </template>

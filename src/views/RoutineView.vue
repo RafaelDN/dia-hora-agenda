@@ -5,17 +5,31 @@ import DetailPanel from '../components/DetailPanel.vue'
 import RoutineTimeline from '../components/RoutineTimeline.vue'
 import { groupRoutineByTime } from '../data/groupRoutine'
 import { loadRoutine } from '../data/loadRoutine'
+import { readRoutineDailyLog, writeRoutineDailyLog } from '../lib/routineDailyLog'
 import type { RoutineItem } from '../types/routine'
 
 const items = ref<RoutineItem[]>([])
 const activeItemId = ref<string>('')
 const isLoading = ref(true)
 const errorMessage = ref('')
+const completedItemIds = ref<string[]>([])
 
 const groupedItems = computed(() => groupRoutineByTime(items.value))
 const activeItem = computed(
   () => items.value.find((item) => item.id === activeItemId.value) ?? null,
 )
+const completedCount = computed(() => completedItemIds.value.length)
+const completionLabel = computed(() => {
+  if (items.value.length === 0) {
+    return 'Nada para acompanhar hoje.'
+  }
+
+  if (completedCount.value === items.value.length) {
+    return `Tudo certo por hoje: ${completedCount.value}/${items.value.length}`
+  }
+
+  return `${completedCount.value}/${items.value.length} item(ns) marcado(s) hoje`
+})
 const isMobile = ref(false)
 const mobileDetailModal = ref<HTMLDialogElement | null>(null)
 let mediaQuery: MediaQueryList | null = null
@@ -24,10 +38,11 @@ onMounted(async () => {
   mediaQuery = window.matchMedia('(max-width: 767px)')
   updateMobileState(mediaQuery)
   mediaQuery.addEventListener('change', updateMobileState)
+  completedItemIds.value = Array.from(readRoutineDailyLog())
 
   try {
     const routine = await loadRoutine()
-    items.value = routine;    
+    items.value = routine
   } catch (error) {
     errorMessage.value =
       error instanceof Error ? error.message : 'Nao foi possivel carregar a rotina.'
@@ -59,6 +74,20 @@ function updateMobileState(query: MediaQueryList | MediaQueryListEvent) {
 function handlePrint() {
   window.print()
 }
+
+function handleToggleCompleted(item: RoutineItem) {
+  const completedSet = new Set(completedItemIds.value)
+
+  if (completedSet.has(item.id)) {
+    completedSet.delete(item.id)
+  } else {
+    completedSet.add(item.id)
+  }
+
+  const validItemIds = new Set(items.value.map((routineItem) => routineItem.id))
+  completedItemIds.value = Array.from(completedSet).filter((itemId) => validItemIds.has(itemId))
+  writeRoutineDailyLog(completedItemIds.value)
+}
 </script>
 
 <template>
@@ -82,6 +111,9 @@ function handlePrint() {
               <span class="text-[11px] font-bold uppercase tracking-[0.12em] text-base-content/55">
                 Timeline
               </span>              
+              <p class="mt-1 text-sm text-base-content/60">
+                {{ completionLabel }}
+              </p>
             </div>
 
             <button class="routine-print-control btn btn-sm btn-outline" type="button" @click="handlePrint">
@@ -93,7 +125,9 @@ function handlePrint() {
             class="routine-print-timeline"
             :groups="groupedItems"
             :active-item-id="activeItemId"
+            :completed-item-ids="completedItemIds"
             @select="handleSelect"
+            @toggle-completed="handleToggleCompleted"
           />
         </div>
       </div>

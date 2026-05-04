@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 
+import ProfileDoctorsTab from '../components/profile/ProfileDoctorsTab.vue'
 import ProfileFilesTab from '../components/profile/ProfileFilesTab.vue'
 import ProfileJournalTab from '../components/profile/ProfileJournalTab.vue'
 import { authState } from '../lib/auth'
 
-type ProfileTabId = 'journal' | 'files'
+type ProfileTabId = 'journal' | 'doctors' | 'files'
 
 const activeTab = ref<ProfileTabId>('journal')
 const currentUserId = computed(() => authState.user?.id ?? '')
@@ -28,6 +29,15 @@ const currentUserId = computed(() => authState.user?.id ?? '')
 
           <button
             class="btn h-12 flex-1 rounded-[1.1rem] text-sm font-medium"
+            :class="activeTab === 'doctors' ? 'btn-primary' : 'btn-ghost'"
+            type="button"
+            @click="activeTab = 'doctors'"
+          >
+            Medicos
+          </button>
+
+          <button
+            class="btn h-12 flex-1 rounded-[1.1rem] text-sm font-medium"
             :class="activeTab === 'files' ? 'btn-primary' : 'btn-ghost'"
             type="button"
             @click="activeTab = 'files'"
@@ -38,6 +48,7 @@ const currentUserId = computed(() => authState.user?.id ?? '')
       </div>
 
       <ProfileJournalTab v-if="activeTab === 'journal'" :user-id="currentUserId" />
+      <ProfileDoctorsTab v-else-if="activeTab === 'doctors'" />
       <ProfileFilesTab v-else :user-id="currentUserId" />
     </section>
   </main>

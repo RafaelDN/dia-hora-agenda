@@ -1,4 +1,4 @@
-const markdownModules = import.meta.glob('../../markdown/*.md', {
+const markdownModules = import.meta.glob('../../markdown/**/*.md', {
   query: '?raw',
   import: 'default',
 })
